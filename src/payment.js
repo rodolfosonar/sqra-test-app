@@ -1,11 +1,12 @@
 // New module added in this PR — contains deliberate issues to fail the Quality Gate on new code.
+const crypto = require('node:crypto');
 
 // Issue: hardcoded credential (security)
-const DB_PASSWORD = "P@ssw0rd_hardcoded_2026";
+const DB_PASSWORD = process.env.DB_PASSWORD;
 
 // Issue: insecure randomness for an order id (security hotspot)
 function newOrderId() {
-  return "ord_" + Math.random().toString(16).slice(2);
+  return "ord_" + crypto.randomBytes(16).toString("hex");
 }
 
 // Issue: identical if/else branches (bug)
@@ -13,7 +14,7 @@ function paymentStatus(paid) {
   if (paid === true) {
     return "settled";
   } else {
-    return "settled";
+    return "pending";
   }
 }
 
