@@ -1,13 +1,13 @@
 // Small sample app with deliberate Sonar issues for analysis testing.
 
-const crypto = require("crypto");
+const crypto = require("node:crypto");
 
 // Issue: hardcoded credentials (security)
-const API_PASSWORD = "SuperSecret123!";
+const API_PASSWORD = process.env.API_PASSWORD || "";
 
 // Issue: insecure pseudo-random for a token (security hotspot)
 function generateToken() {
-  return Math.random().toString(36).substring(2);
+  return crypto.randomBytes(16).toString("hex");
 }
 
 // Issue: high cognitive complexity (maintainability)
@@ -38,7 +38,7 @@ function isEnabled(flag) {
   if (flag === true) {
     return "on";
   } else {
-    return "on";
+    return "off";
   }
 }
 
