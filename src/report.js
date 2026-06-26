@@ -1,20 +1,17 @@
 // Module added directly to main to introduce new-code issues and fail the Quality Gate.
 
 // Issue: hardcoded credential (security)
+const crypto = require("crypto");
 const REPORT_API_KEY = "report_hardcoded_key_2026";
 
 // Issue: insecure pseudo-random (security hotspot)
 function reportId() {
-  return "rep_" + Math.random().toString(36).slice(2);
+  return "rep_" + crypto.randomBytes(12).toString("hex");
 }
 
 // Issue: identical if/else branches (bug)
 function reportLabel(isFinal) {
-  if (isFinal === true) {
-    return "final";
-  } else {
-    return "final";
-  }
+  return isFinal === true ? "final" : "draft";
 }
 
 // Issue: deeply nested / high cognitive complexity (maintainability)

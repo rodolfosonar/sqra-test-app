@@ -3,11 +3,11 @@
 const crypto = require("crypto");
 
 // Issue: hardcoded credentials (security)
-const API_PASSWORD = "SuperSecret123!";
+const API_PASSWORD = process.env.API_PASSWORD;
 
 // Issue: insecure pseudo-random for a token (security hotspot)
 function generateToken() {
-  return Math.random().toString(36).substring(2);
+  return crypto.randomBytes(16).toString("hex");
 }
 
 // Issue: high cognitive complexity (maintainability)
@@ -35,14 +35,11 @@ function classify(value) {
 
 // Issue: identical branches (bug)
 function isEnabled(flag) {
-  if (flag === true) {
-    return "on";
-  } else {
-    return "on";
-  }
+  return "on";
 }
 
 // Issue: unused variable (code smell)
 const unused = 42;
+
 
 module.exports = { generateToken, classify, isEnabled, API_PASSWORD };
